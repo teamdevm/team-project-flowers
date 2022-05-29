@@ -1,0 +1,107 @@
+openapi: 3.0.0
+info:
+    title: FlowersAPI specification
+    version: 1.0.0
+components:
+    schemas:
+        User:
+            type: object
+            properties:
+                Id:
+                    type: integer
+                Name:
+                    type: string
+                    minLength:
+                    maxLength:
+                Login:
+                    type: string
+                    minLength:
+                    maxLength:
+                Password:
+                    type: string
+                    format: password
+                    minLength:
+                    maxLength:
+                CreatedDate:
+                    type: string
+                    format: date-time
+                LoginDate:
+                    type: string
+                    format: date-time
+        Member:
+            allOf:
+                - $ref: '#/components/schemas/User'
+                - type: object
+                  properties:
+                      GreenHouse:
+                          $ref: '#/components/schemas/GreenHouse'
+                      GreenHouseName:
+                          type: string
+                          minLength:
+                          maxLength:
+                      role:
+                          $ref: '#/components/schemas/GreenHouseRole'
+        Collection:
+            type: array
+            items:
+                $ref: '#/components/schemas/GreenHouse'
+        GreenHouse:
+            type: object
+            properties:
+                Id:
+                    type: integer
+                Plants:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Plant'
+                Members:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Member'
+                CreatedDate:
+                    type: string
+                    format: date-time
+        GreenHouseRole:
+            type: string
+            enum:
+                - s
+        Plant:
+            type: object
+            properties:
+                Id:
+                    type: integer
+                Name:
+                    type: string
+                    minLength:
+                    maxLength:
+                CreatedDate:
+                    type: string
+                    format: date-time
+                LastWaterDate:
+                    type: string
+                    format: date-time
+                Species:
+                    $ref: '#/components/schemas/PlantSpecies'
+        PlantGroup:
+            type: string
+            enum:
+                - s
+        PlantSpecies:
+            type: object
+            properties:
+                SpeciesName:
+                    type: string
+                    enum:
+                        -
+                Group:
+                    $ref: '#/components/schemas/PlantGroup'
+paths:
+    /user:
+    /user/login:
+    /user/{id}:
+    /user/{id}/collection:
+    /greenhouse/{id}?userId=:
+    /greenhouse/{id}?userId=/members:
+    /greenhouse/{id}/plants:
+    /plant/{id}:
+    /plant/{id}/water:
