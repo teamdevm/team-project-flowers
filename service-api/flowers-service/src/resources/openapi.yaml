@@ -105,75 +105,235 @@ paths:
     /user:
         post:
             summary: Registration of new user
-            parameters:
             requestBody:
                 required: true
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/User'
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/User'
     /user/login:
         post:
             summary: Login user
-            parameters:
             requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/User'
     /user/{userId}:
         get:
             summary: Get information about user
             parameters:
-            requestBody:
+              - in: path
+                name: userId
+                description: User id
+                required: true
+                schema:
+                    type: integer
         post:
             summary: Update user information
             parameters:
+              - in: path
+                name: userId
+                description: User id
+                required: true
+                schema:
+                    type: integer
             requestBody:
+                content: 
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/User'
         delete:
             summary: Delete user
             parameters:
-            requestBody:
+              - in: path
+                name: userId
+                description: User id
+                schema:
+                    type: integer
+
     /user/{userId}/collection:
         get:
             summary: Return user's collection (aka list of user's greenhouses)
             parameters:
-            requestBody:
+              - in: path
+                name: userId
+                description: User id
+                schema:
+                    type: integer
         post:
             summary: Create new greenhouse in user's collection
             parameters:
+              - in: path
+                name: userId
+                description: User id
+                schema:
+                    type: integer
             requestBody:
+                content: 
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/GreenHouse'
         delete:
             summary: Delete greenhouse from user's collection
             parameters:
-            requestBody:
+              - in: path
+                name: userId
+                description: User id
+                schema:
+                    type: integer
+
     /greenhouse/{grHouseId}?userId=:
         get:
             summary: Return greenhouse information with it's name for user
             parameters:
-            requestBody:
+              - in: path
+                name: grHouseId
+                description: Greenhouse Id
+                schema:
+                    type: integer
+
+              - in: query
+                name: userId
+                description: User Id
+                schema:
+                    type: integer
         post:
             summary: Update name of greenhouse for user
             parameters:
+              - in: path
+                name: grHouseId
+                description: Greenhouse Id
+                schema:
+                    type: integer
+
+              - in: path
+                name: userId
+                description: User Id
+                schema:
+                    type: integer
             requestBody:
+                content: 
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/GreenHouse'
+
     /greenhouse/{grHouseId}/members:
         get:
             summary: Return list of members (users with their greenhouse roles)
+            parameters:
+              - in: path
+                name: grHouseId
+                description: Greenhouse Id
+                schema:
+                    type: integer
     /greenhouse/{grHouseId}/members/{userId}:
         get:
             summary: Return member in greenhouse
+            parameters:
+              - in: path
+                name: grHouseId
+                description: Greenhouse Id
+                schema:
+                    type: integer
+
+              - in: path
+                name: userId
+                description: User Id
+                schema:
+                    type: integer
         post:
             summary: Update member role in greenhouse
+            parameters:
+              - in: path
+                name: grHouseId
+                description: Greenhouse Id
+                schema:
+                    type: integer
+
+              - in: path
+                name: userId
+                description: User Id
+                schema:
+                    type: integer
+            requestBody:
+                content: 
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Member'
         delete:
             summary: Delete member from
+            parameters:
+              - in: path
+                name: grHouseId
+                description: Greenhouse Id
+                schema:
+                    type: integer
+
+              - in: path
+                name: userId
+                description: User Id
+                schema:
+                    type: integer
     /greenhouse/{grHouseId}/plants:
         get:
             summary: Return list of plants in greenhouse
+            parameters:
+              - in: path
+                name: grHouseId
+                description: Greenhouse Id
+                schema:
+                    type: integer
     /plant/{plId}:
         get:
             summary: Return information about plant
+            parameters:
+              - in: path
+                name: plId
+                description: Plant Id
+                schema:
+                    type: integer
         post:
             summary: Update information about plant
+            parameters:
+              - in: path
+                name: plId
+                description: Plant Id
+                schema:
+                    type: integer
+            requestBody:
+                content: 
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Plant'
         delete:
             summary: Delete plant in greenhouse
+            parameters:
+              - in: path
+                name: plId
+                description: Plant Id
+                schema:
+                    type: integer
     /plant/{plId}/water:
         get:
             summary: Return last and next dates for water
+            parameters:
+              - in: path
+                name: plId
+                description: Plant Id
+                schema:
+                    type: integer
         post:
             summary: Change last date water
+            parameters:
+              - in: path
+                name: plId
+                description: Plant Id
+                schema:
+                    type: integer
+            requestBody:
+                content: 
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Plant'
