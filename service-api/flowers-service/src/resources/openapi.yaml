@@ -5,6 +5,7 @@ info:
 components:
     schemas:
         User:
+            # TODO required, think about Member!
             type: object
             properties:
                 Id:
@@ -63,7 +64,7 @@ components:
                     format: date-time
         GreenHouseRole:
             type: string
-            enum:
+            enum: # TODO add roles
                 - s
         Plant:
             type: object
@@ -78,6 +79,9 @@ components:
                     type: string
                     format: date-time
                 LastWaterDate:
+                    type: string
+                    format: date-time
+                NextWaterDate:
                     type: string
                     format: date-time
                 Species:
@@ -95,13 +99,81 @@ components:
                         -
                 Group:
                     $ref: '#/components/schemas/PlantGroup'
+    responses:
+    requestBodies:
 paths:
     /user:
+        post:
+            summary: Registration of new user
+            parameters:
+            requestBody:
+                required: true
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
     /user/login:
-    /user/{id}:
-    /user/{id}/collection:
-    /greenhouse/{id}?userId=:
-    /greenhouse/{id}?userId=/members:
-    /greenhouse/{id}/plants:
-    /plant/{id}:
-    /plant/{id}/water:
+        post:
+            summary: Login user
+            parameters:
+            requestBody:
+    /user/{userId}:
+        get:
+            summary: Get information about user
+            parameters:
+            requestBody:
+        post:
+            summary: Update user information
+            parameters:
+            requestBody:
+        delete:
+            summary: Delete user
+            parameters:
+            requestBody:
+    /user/{userId}/collection:
+        get:
+            summary: Return user's collection (aka list of user's greenhouses)
+            parameters:
+            requestBody:
+        post:
+            summary: Create new greenhouse in user's collection
+            parameters:
+            requestBody:
+        delete:
+            summary: Delete greenhouse from user's collection
+            parameters:
+            requestBody:
+    /greenhouse/{grHouseId}?userId=:
+        get:
+            summary: Return greenhouse information with it's name for user
+            parameters:
+            requestBody:
+        post:
+            summary: Update name of greenhouse for user
+            parameters:
+            requestBody:
+    /greenhouse/{grHouseId}/members:
+        get:
+            summary: Return list of members (users with their greenhouse roles)
+    /greenhouse/{grHouseId}/members/{userId}:
+        get:
+            summary: Return member in greenhouse
+        post:
+            summary: Update member role in greenhouse
+        delete:
+            summary: Delete member from
+    /greenhouse/{grHouseId}/plants:
+        get:
+            summary: Return list of plants in greenhouse
+    /plant/{plId}:
+        get:
+            summary: Return information about plant
+        post:
+            summary: Update information about plant
+        delete:
+            summary: Delete plant in greenhouse
+    /plant/{plId}/water:
+        get:
+            summary: Return last and next dates for water
+        post:
+            summary: Change last date water
