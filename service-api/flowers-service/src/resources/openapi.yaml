@@ -111,6 +111,20 @@ paths:
                     application/json:
                         schema:
                             $ref: '#/components/schemas/User'
+            responses:
+                '201':
+                    description: The id of the new user
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    Id:
+                                        type: integer
+                '400':
+                    description: Bad request
+                '5XX':
+                    description: Unexpected error
     /user/login:
         post:
             summary: Login user
@@ -120,6 +134,20 @@ paths:
                     application/json:
                         schema:
                             $ref: '#/components/schemas/User'
+            responses:
+                '201':
+                    description: The id of logined user
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    Id:
+                                        type: integer
+                '400':
+                    description: Bad request
+                '5XX':
+                    description: Unexpected error
     /user/{userId}:
         get:
             summary: Get information about user
@@ -130,6 +158,19 @@ paths:
                 required: true
                 schema:
                     type: integer
+            responses:
+                '200':
+                    description: A JSON of user information
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
+                '400':
+                    description: Bad request. User id must be an integer and larger than 0.
+                '404':
+                    description: The user with the specified id is not found.
+                '5XX':
+                    description: Unexpected error
         post:
             summary: Update user information
             parameters:
@@ -144,6 +185,15 @@ paths:
                     application/json:
                         schema:
                             $ref: '#/components/schemas/User'
+            responses:
+                '201':
+                    description: Successfully modified
+                '400':
+                    description: Bad request. User id must be an integer and larger than 0.
+                '404':
+                    description: The user with the specified id is not found.
+                '5XX':
+                    description: Unexpected error
         delete:
             summary: Delete user
             parameters:
@@ -152,6 +202,15 @@ paths:
                 description: User id
                 schema:
                     type: integer
+            responses:
+                '204':
+                    description: Successfully deleted
+                '400':
+                    description: Bad request. Plant id must be an integer and larger than 0.
+                '404':
+                    description: The plant with the specified id is not found.
+                '5XX':
+                    description: Unexpected error
 
     /user/{userId}/collection:
         get:
@@ -162,6 +221,19 @@ paths:
                 description: User id
                 schema:
                     type: integer
+            responses:
+                '200':
+                    description: A JSON of user's collection
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Collection'
+                '400':
+                    description: Bad request. User id must be an integer and larger than 0.
+                '404':
+                    description: The user with the specified id is not found.
+                '5XX':
+                    description: Unexpected error
         post:
             summary: Create new greenhouse in user's collection
             parameters:
@@ -175,6 +247,15 @@ paths:
                     application/json:
                         schema:
                             $ref: '#/components/schemas/GreenHouse'
+            responses:
+                '201':
+                    description: Successfully Added
+                '400':
+                    description: Bad request. User id must be an integer and larger than 0.
+                '404':
+                    description: The user with the specified id is not found.
+                '5XX':
+                    description: Unexpected error
         delete:
             summary: Delete greenhouse from user's collection
             parameters:
@@ -183,6 +264,15 @@ paths:
                 description: User id
                 schema:
                     type: integer
+            responses:
+                '204':
+                    description: Successfully deleted
+                '400':
+                    description: Bad request. Plant id must be an integer and larger than 0.
+                '404':
+                    description: The plant with the specified id is not found.
+                '5XX':
+                    description: Unexpected error
 
     /greenhouse/{grHouseId}?userId=:
         get:
@@ -199,6 +289,19 @@ paths:
                 description: User Id
                 schema:
                     type: integer
+            responses:
+                '200':
+                    description: A JSON of greenhouse information
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GreenHouse'
+                '400':
+                    description: Bad request. User id or Greenhouse id must be an integer and larger than 0.
+                '404':
+                    description: The user with the specified id or greenhouse id is not found.
+                '5XX':
+                    description: Unexpected error
         post:
             summary: Update name of greenhouse for user
             parameters:
@@ -218,6 +321,15 @@ paths:
                     application/json:
                         schema:
                             $ref: '#/components/schemas/GreenHouse'
+            responses:
+                '201':
+                    description: Successfully modified
+                '400':
+                    description: Bad request. User id or Greenhouse id must be an integer and larger than 0.
+                '404':
+                    description: The user with the specified id or greenhouse id is not found.
+                '5XX':
+                    description: Unexpected error
 
     /greenhouse/{grHouseId}/members:
         get:
@@ -228,6 +340,21 @@ paths:
                 description: Greenhouse Id
                 schema:
                     type: integer
+            responses:
+                '200':
+                    description: A JSON of members in greenhouse
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Member'
+                '400':
+                    description: Bad request. Greenhouse id must be an integer and larger than 0.
+                '404':
+                    description: The greenhouse with the specified id is not found.
+                '5XX':
+                    description: Unexpected error
     /greenhouse/{grHouseId}/members/{userId}:
         get:
             summary: Return member in greenhouse
@@ -243,6 +370,19 @@ paths:
                 description: User Id
                 schema:
                     type: integer
+            responses:
+                '200':
+                    description: A JSON of member in greenhouse
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Member'
+                '400':
+                    description: Bad request. User id or Greenhouse id must be an integer and larger than 0.
+                '404':
+                    description: The user with the specified id or greenhouse id is not found.
+                '5XX':
+                    description: Unexpected error
         post:
             summary: Update member role in greenhouse
             parameters:
@@ -262,6 +402,15 @@ paths:
                     application/json:
                         schema:
                             $ref: '#/components/schemas/Member'
+            responses:
+                '201':
+                    description: Successfully modified
+                '400':
+                    description: Bad request. User id or Greenhouse id must be an integer and larger than 0.
+                '404':
+                    description: The user with the specified id or greenhouse id is not found.
+                '5XX':
+                    description: Unexpected error
         delete:
             summary: Delete member from
             parameters:
@@ -276,6 +425,15 @@ paths:
                 description: User Id
                 schema:
                     type: integer
+            responses:
+                '204':
+                    description: Successfully deleted
+                '400':
+                    description: Bad request. Plant id must be an integer and larger than 0.
+                '404':
+                    description: The plant with the specified id is not found.
+                '5XX':
+                    description: Unexpected error
     /greenhouse/{grHouseId}/plants:
         get:
             summary: Return list of plants in greenhouse
@@ -285,6 +443,21 @@ paths:
                 description: Greenhouse Id
                 schema:
                     type: integer
+            responses:
+                '200':
+                    description: A JSON of plants in greenhouse
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Plant'
+                '400':
+                    description: Bad request. Greenhouse id must be an integer and larger than 0.
+                '404':
+                    description: The greenhouse with the specified id is not found.
+                '5XX':
+                    description: Unexpected error
     /plant/{plId}:
         get:
             summary: Return information about plant
@@ -294,6 +467,19 @@ paths:
                 description: Plant Id
                 schema:
                     type: integer
+            responses:
+                '200':
+                    description: A JSON of the plant information
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Plant'
+                '400':
+                    description: Bad request. Plant id must be an integer and larger than 0.
+                '404':
+                    description: The plant with the specified id is not found.
+                '5XX':
+                    description: Unexpected error
         post:
             summary: Update information about plant
             parameters:
@@ -307,6 +493,15 @@ paths:
                     application/json:
                         schema:
                             $ref: '#/components/schemas/Plant'
+            responses:
+                '201':
+                    description: Successfully modified
+                '400':
+                    description: Bad request. Plant id must be an integer and larger than 0.
+                '404':
+                    description: The plant with the specified id is not found.
+                '5XX':
+                    description: Unexpected error
         delete:
             summary: Delete plant in greenhouse
             parameters:
@@ -315,6 +510,15 @@ paths:
                 description: Plant Id
                 schema:
                     type: integer
+            responses:
+                '204':
+                    description: Successfully deleted
+                '400':
+                    description: Bad request. Plant id must be an integer and larger than 0.
+                '404':
+                    description: The plant with the specified id is not found.
+                '5XX':
+                    description: Unexpected error
     /plant/{plId}/water:
         get:
             summary: Return last and next dates for water
@@ -324,6 +528,19 @@ paths:
                 description: Plant Id
                 schema:
                     type: integer
+            responses:
+                '200':
+                    description: A JSON of the plant information
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Plant'
+                '400':
+                    description: Bad request. Plant id must be an integer and larger than 0.
+                '404':
+                    description: The plant with the specified id is not found.
+                '5XX':
+                    description: Unexpected error
         post:
             summary: Change last date water
             parameters:
@@ -337,3 +554,12 @@ paths:
                     application/json:
                         schema:
                             $ref: '#/components/schemas/Plant'
+            responses:
+                '201':
+                    description: Successfully modified
+                '400':
+                    description: Bad request. Plant id must be an integer and larger than 0.
+                '404':
+                    description: The plant with the specified id is not found.
+                '5XX':
+                    description: Unexpected error
