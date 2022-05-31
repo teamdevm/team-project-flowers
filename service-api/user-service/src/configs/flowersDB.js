@@ -1,7 +1,7 @@
 const dbConnection = {
-    schema: process.env.DB_SCHEMA || 'postgres',
-    user: process.env.DB_USER || 'postgres',
-    password: process.env.DB_PASSWORD || '',
+    database: process.env.DB_NAME || 'flowers',
+    user: process.env.DB_USER || 'flower_tester',
+    password: process.env.DB_PASSWORD || 'flower_tester',
     host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT || 5432,
     dialect: 'postgres'

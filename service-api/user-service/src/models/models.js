@@ -2,7 +2,7 @@ const {Sequelize, DataTypes} = require('sequelize');
 const connection = require('../configs/flowersDB');
 
 const sequelize = new Sequelize(
-    connection.schema,
+    connection.database,
     connection.user,
     connection.password,
     {
