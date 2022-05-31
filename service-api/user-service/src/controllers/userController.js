@@ -123,3 +123,12 @@ const deleteUser = async (request, response, next) => {
         .status(204)
         .end();
 }
+
+module.exports = {
+    createUser,
+    findAllUsers,
+    findUser,
+    findUserById,
+    updateUser,
+    deleteUser
+}
