@@ -17,8 +17,8 @@ const createUser = async (request, response, next) => {
             password
         });
     } catch (error) {
-        const error = new ApiError(500, 'Error on create user', error);
-        return next(error);
+        const apiError = new ApiError(500, 'Error on create user', error);
+        return next(apiError);
     }
 
     response
@@ -34,8 +34,8 @@ const findAllUsers = async (request, response, next) => {
     try {
         users = await User.findAll();
     } catch (error) {
-        const error = new ApiError(500, 'Error on select users', error);
-        return next(error);
+        const apiError = new ApiError(500, 'Error on select users', error);
+        return next(apiError);
     }
 
     response
@@ -55,21 +55,21 @@ const findUserById = async (request, response, next) => {
     const id = request.params.id;
 
     if (id === null) {
-        const error = new ApiError(400, `Bad user id`, '');
-        return next(error);
+        const apiError = new ApiError(400, `Bad user id`, '');
+        return next(apiError);
     }
 
     let user;
     try {
         user = await User.findByPk(id);
     } catch (error) {
-        const error = new ApiError(500, `Error on find user by id`, error);
-        return next(error);
+        const apiError = new ApiError(500, `Error on find user by id`, error);
+        return next(apiError);
     }
 
     if (user === null) {
-        const error = new ApiError(404, `User with id ${id} not founded`, '');
-        return next(error);
+        const apiError = new ApiError(404, `User with id ${id} not founded`, '');
+        return next(apiError);
     }
 
     request.user = user;
@@ -100,8 +100,8 @@ const updateUser = async (request, response, next) => {
             await user.save(params)
         }
     } catch (error) {
-        const error = new ApiError(500, `Error on update user`, error);
-        return next(error);
+        const apiError = new ApiError(500, `Error on update user`, error);
+        return next(apiError);
     }
 
     response
@@ -115,8 +115,8 @@ const deleteUser = async (request, response, next) => {
     try {
         await user.destroy();
     } catch (error) {
-        const error = new ApiError(500, `Error on delete user`, error);
-        return next(error);
+        const apiError = new ApiError(500, `Error on delete user`, error);
+        return next(apiError);
     }
 
     response
