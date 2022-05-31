@@ -17,5 +17,6 @@ const user = require('./User');
 const User = user(sequelize, DataTypes);
 
 module.exports = {
+    sequelize,
     User
 }
