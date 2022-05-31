@@ -1,5 +1,6 @@
 const {User} = require('../models/models');
 const {ApiError} = require('../modules/ApiError');
+const {Op} = require('sequelize');
 
 const createUser = async (request, response, next) => {
     const { login, email, password, name } = request.body;
@@ -10,6 +11,24 @@ const createUser = async (request, response, next) => {
     }
 
     let user
+    try {
+        user = await User.findOne({
+            where: {
+                login: {
+                    [Op.eq]: login
+                }
+            }
+        });
+    } catch (error) {
+        const apiError = new ApiError(500, 'Error on find user by login', error);
+        return next(apiError);
+    }
+
+    if (user != null) {
+        const apiError = new ApiError(400, 'User with same login already exists', '');
+        return next(apiError);
+    }
+
     try {
         user = await User.create({
             login,
