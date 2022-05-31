@@ -2,19 +2,20 @@ const {User} = require('../models/models');
 const {ApiError} = require('../modules/ApiError');
 
 const createUser = async (request, response, next) => {
-    const { login, email, password } = request.body;
+    const { login, email, password, name } = request.body;
 
-    if (login === null || email === null || password === null) {
-        const error = new ApiError(400, 'User body is empty', '');
-        return next(error);
+    if (login == null || email == null || password == null || name == null) {
+        const apiError = new ApiError(400, 'User body is empty', '');
+        return next(apiError);
     }
 
     let user
     try {
         user = await User.create({
             login,
+            password,
             email,
-            password
+            name
         });
     } catch (error) {
         const apiError = new ApiError(500, 'Error on create user', error);
@@ -54,7 +55,7 @@ const findUser = async (request, response, next) => {
 const findUserById = async (request, response, next) => {
     const id = request.params.id;
 
-    if (id === null) {
+    if (id == null) {
         const apiError = new ApiError(400, `Bad user id`, '');
         return next(apiError);
     }
@@ -67,7 +68,7 @@ const findUserById = async (request, response, next) => {
         return next(apiError);
     }
 
-    if (user === null) {
+    if (user == null) {
         const apiError = new ApiError(404, `User with id ${id} not founded`, '');
         return next(apiError);
     }
@@ -83,15 +84,15 @@ const updateUser = async (request, response, next) => {
 
     let params = [];
     try {
-        if (login !== null) {
+        if (login != null) {
             user.login = login;
             params.push('login');
         }
-        if (password !== null) {
+        if (password != null) {
             user.password = password;
             params.push('password');
         }
-        if (email !== null) {
+        if (email != null) {
             user.email = email;
             params.push('email');
         }

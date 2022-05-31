@@ -2,16 +2,12 @@ const bcrypt = require('bcryptjs');
 
 const saltRounds = 10;
 
-async function getHash(original) {
-    let hash;
+function getHash(original) {
     try {
-        hash = await bcrypt.hash(original, saltRounds);
+        return bcrypt.hashSync(original, saltRounds);
     } catch (error) {
-        console.log('Something went wrong with the hash module. ', error);
-        throw new Error('Something went wrong with the hash module.');
+        throw error;
     }
-
-    return hash;
 }
 
 async function matchHash(password, originalHashed) {
@@ -26,7 +22,7 @@ async function matchHash(password, originalHashed) {
     return matched;
 }
 
-module.export = {
+module.exports = {
     getHash,
     matchHash
 }

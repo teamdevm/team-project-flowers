@@ -1,5 +1,5 @@
 const {Model} = require('sequelize');
-const {getHash, matchHash} = require('../modules/passwHash')
+const {getHash} = require('../modules/passwHash');
 
 module.exports = (sequelize, DataTypes) => {
     class User extends Model {
@@ -41,12 +41,11 @@ module.exports = (sequelize, DataTypes) => {
 
                 field: 'password',
 
-                async set(value) {
+                set(value) {
                     try {
-                        const hash = await getHash(value);
-                        this.setDataValue('password', hash);
-                    } catch (e) {
-                        throw (e);
+                        this.setDataValue('password', getHash(value));
+                    } catch (error) {
+                        throw error;
                     }
                 }
             },
