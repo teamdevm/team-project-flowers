@@ -13,18 +13,9 @@ const sequelize = new Sequelize(
 );
 
 const user = require('./User');
-const greenHouseRoles = require('./GreenHouseRole');
-const collection = require('./Collection');
 
 const User = user(sequelize, DataTypes);
-const GreenHouseRoles = greenHouseRoles(sequelize, DataTypes);
-const Collection = collection(sequelize, DataTypes);
-
-Collection.hasMany(User, {foreignKey: ''});
-Collection.hasMany(GreenHouseRoles, {foreignKey: ''});
 
 module.exports = {
-    User,
-    GreenHouseRoles,
-    Collection
+    User
 }
