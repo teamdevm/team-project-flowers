@@ -13,11 +13,11 @@ module.exports = (sequelize, DataTypes) => {
 
                 field: 'id'
             },
-            idSpecific: {
+            idSpecies: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
 
-                field: 'id_specific'
+                field: 'id_species'
             },
             name: {
                 type: DataTypes.STRING(50),
