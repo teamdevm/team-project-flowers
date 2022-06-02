@@ -1,0 +1,14 @@
+{
+  "name": "flowers-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/service.js",
+  "scripts": {
+    "test": "node src/service.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
