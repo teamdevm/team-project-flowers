@@ -7,6 +7,7 @@ const {sequelize} = require('./models/models');
 const user = require('./routes/userRoute');
 const plGroups = require('./routes/plGroupsRoute');
 const plSpecies = require('./routes/plSpeciesRoute');
+const plant = require('./routes/plantRoute')
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.get('/', async (request, response, next) => {
 app.use('/', user);
 app.use('/', plGroups);
 app.use('/', plSpecies);
+app.use('/', plant);
 
 app.listen(conf.port, (err) => {
     if (err) {
