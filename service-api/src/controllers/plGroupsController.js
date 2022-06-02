@@ -33,11 +33,21 @@ const getGroupsSpecies = async (request, response, next) => {
 const getGroup = async (request, response, next) => {
     const id = request.params.id;
 
+    if (id == null) {
+        const apiError = new ApiError(400, `Bad group id`, '');
+        return next(apiError);
+    }
+
     let group
     try {
         group = await PlantGroup.findByPk(id);
     } catch (error) {
         const apiError = new ApiError(500, 'Error on find group by id', error);
+        return next(apiError);
+    }
+
+    if (group == null) {
+        const apiError = new ApiError(404, `Group with id ${id} not founded`, '');
         return next(apiError);
     }
 
@@ -49,11 +59,21 @@ const getGroup = async (request, response, next) => {
 const getGroupSpecies = async (request, response, next) => {
     const id = request.params.id;
 
+    if (id == null) {
+        const apiError = new ApiError(400, `Bad group id`, '');
+        return next(apiError);
+    }
+
     let group
     try {
         group = await PlantGroup.findByPk(id, {include: 'species'});
     } catch (error) {
         const apiError = new ApiError(500, 'Error on find group by id with species', error);
+        return next(apiError);
+    }
+
+    if (group == null) {
+        const apiError = new ApiError(404, `Group with id ${id} not founded`, '');
         return next(apiError);
     }
 
