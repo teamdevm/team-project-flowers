@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 allowNull: false,
 
-                field: 'id_group'
+                field: 'id_plants_group'
             },
             // waterInterval: {
             //     type: DataTypes
