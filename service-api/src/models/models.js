@@ -15,7 +15,23 @@ const sequelize = new Sequelize(
 const user = require('./User');
 const User = user(sequelize, DataTypes);
 
+const plant = require('./Plant');
+const plantGroup = require('./PlantGroup');
+const plantSpecies = require('./PlantSpecies');
+const Plant = plant(sequelize, DataTypes);
+const PlantGroup = plantGroup(sequelize, DataTypes);
+const PlantSpecies = plantSpecies(sequelize, DataTypes);
+
+PlantGroup.hasMany(PlantSpecies, {as: 'species', foreignKey: 'idGroup'});
+PlantSpecies.belongsTo(PlantGroup, {as: 'group', foreignKey: 'idGroup'});
+
+PlantSpecies.hasMany(Plant, {as: 'plants', foreignKey: 'idSpecies'});
+Plant.belongsTo(PlantSpecies, {as: 'species', foreignKey: 'idSpecies'});
+
 module.exports = {
     sequelize,
-    User
+    User,
+    PlantGroup,
+    PlantSpecies,
+    Plant
 }
