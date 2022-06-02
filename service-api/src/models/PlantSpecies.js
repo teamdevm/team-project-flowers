@@ -37,5 +37,5 @@ module.exports = (sequelize, DataTypes) => {
         }
     );
 
-    return PlantGroup;
+    return PlantSpecies;
 };
