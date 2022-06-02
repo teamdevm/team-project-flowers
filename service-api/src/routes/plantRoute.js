@@ -11,7 +11,8 @@ router.use(express.json());
 
 router.route('/plant/:id')
     .post(controller.updatePlant) // Create new user
-    .get(controller.getPlant); // Get list of users
+    .get(controller.getPlant) // Get list of users
+    .delete(controller.deletePlant);
 
 router.param('id', controller.findPlantById);
 
