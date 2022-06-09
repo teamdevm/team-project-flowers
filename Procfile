@@ -1,0 +1,1 @@
+web: cd service-api && npm install && npm start
