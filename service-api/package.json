@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/service.js",
   "scripts": {
-    "test": "node src/service.js"
+    "test": "node src/service.js",
+    "start": "node src/service.js"
   },
   "author": "",
   "license": "ISC",
