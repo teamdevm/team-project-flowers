@@ -8,27 +8,51 @@
 
 import React from 'react';
 import type {Node} from 'react';
-import {Text, View} from "react-native";
+import {Image, Text, View} from "react-native";
+
 //margin - отступ элемента от соседа
 //pading - отступ элемент внутри родителя
+
 const App: () => Node = () => {
     return (
         <View style={{
-            width:'60%',
-            height:'10%',
-            flexDirection:'row',
-            justifyContent:'center',
+            flexDirection:'column',
             alignItems:'center',
-            backgroundColor: 'green',
-            marginTop:'50%',
-            marginLeft:'20%'
+            justifyContent:'space-around',
+            height:'100%'
         }}>
-            <Text style={{
-                fontSize:50,
-                color:'yellow'
+            <View style={{
+                width:'60%',
+                height:'10%',
+                flexDirection:'row',
+                justifyContent:'center',
+                alignItems:'center',
+                backgroundColor: 'green',
             }}>
-                Welcome!
-            </Text>
+                <Text style={{
+                    fontSize:50,
+                    color:'yellow'
+                }}>
+                    Welcome!
+                </Text>
+            </View>
+            <View>
+                <Image
+                    source = {require('./Assets/start-page-flower.png')}
+                    style={{
+                        width:250,
+                        height:500,
+                    }}
+                />
+            </View>
+            <View>
+                <Text style={{
+                    fontSize:20,
+                    color:'black'
+                }}>
+                    loading...
+                </Text>
+            </View>
         </View>
     );
 };
