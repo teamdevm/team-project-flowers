@@ -9,6 +9,7 @@
 import React from 'react';
 import type {Node} from 'react';
 import {Image, Text, View} from "react-native";
+import LaunchBtn from './components/LaunchBtn';
 
 //margin - отступ элемента от соседа
 //pading - отступ элемент внутри родителя
@@ -46,12 +47,7 @@ const App: () => Node = () => {
                 />
             </View>
             <View>
-                <Text style={{
-                    fontSize:20,
-                    color:'black'
-                }}>
-                    loading...
-                </Text>
+                <LaunchBtn/>
             </View>
         </View>
     );
