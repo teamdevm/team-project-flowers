@@ -8,48 +8,24 @@
 
 import React from 'react';
 import type {Node} from 'react';
-import {Image, Text, View} from "react-native";
-import LaunchBtn from './components/LaunchBtn';
+import LaunchScreen from "./screens/LaunchScreen";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import GreenhouseScreen from "./screens/GreenhouseScreen";
 
 //margin - отступ элемента от соседа
 //pading - отступ элемент внутри родителя
 
+const Stack = createNativeStackNavigator();
+
 const App: () => Node = () => {
-    return (
-        <View style={{
-            flexDirection:'column',
-            alignItems:'center',
-            justifyContent:'space-around',
-            height:'100%'
-        }}>
-            <View style={{
-                width:'60%',
-                height:'10%',
-                flexDirection:'row',
-                justifyContent:'center',
-                alignItems:'center',
-                backgroundColor: 'green',
-            }}>
-                <Text style={{
-                    fontSize:50,
-                    color:'yellow'
-                }}>
-                    Welcome!
-                </Text>
-            </View>
-            <View>
-                <Image
-                    source = {require('./Assets/start-page-flower.png')}
-                    style={{
-                        width:250,
-                        height:500,
-                    }}
-                />
-            </View>
-            <View>
-                <LaunchBtn/>
-            </View>
-        </View>
+    return(
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName='Launch'>
+                <Stack.Screen name='Launch' component={LaunchScreen} options={{headerShown: false}}/>
+                <Stack.Screen name='Greenhouse' component={GreenhouseScreen} options={{headerShown: false}}/>
+            </Stack.Navigator>
+        </NavigationContainer>
     );
 };
 

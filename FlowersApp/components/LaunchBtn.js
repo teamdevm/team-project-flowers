@@ -3,7 +3,7 @@ import {Text, TouchableOpacity, StyleSheet} from "react-native";
 
 const LaunchBtn = (props) => {
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={props.onPress}>
             <Text style={styles.text}>
                 Начать
             </Text>
