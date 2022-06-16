@@ -44,7 +44,27 @@ const createPlant = async (request, response, next) => {
         }))
 }
 
+const getGhPlants = async (request, response, next) => {
+    const greenhouse = request.greenhouse;
+
+    let plants;
+    try {
+        plants = await greenhouse.getPlants({
+            joinTableAttributes: ['ghName']
+        });
+    } catch (error) {
+        const apiError = new ApiError(500, `Error on select plants in greenhouse with id ${greenhouse.id}`, error);
+        return next(apiError);
+    }
+
+    response
+        .status(200)
+        .send(JSON.stringify(plants));
+}
+
 const getPlant = async (request, response, next) => {
+    const plant = request.plant;
+
     response
         .status(200)
         .send(JSON.stringify(request.plant));
@@ -110,44 +130,10 @@ const deletePlant = async (request, response, next) => {
         .end();
 }
 
-const findPlantById = async (request, response, next) => {
-    const id = request.params.id;
-
-    if (id == null) {
-        const apiError = new ApiError(400, `Bad plant id`, '');
-        return next(apiError);
-    }
-
-    let plant;
-    try {
-        plant = await Plant.findByPk(id, {
-            include: {
-                model: PlantSpecies,
-                as: 'species',
-                include: {
-                    model: PlantGroup,
-                    as: 'group'
-                }
-            }
-        });
-    } catch (error) {
-        const apiError = new ApiError(500, `Error on find plant by id`, error);
-        return next(apiError);
-    }
-
-    if (plant == null) {
-        const apiError = new ApiError(404, `Plant with id ${id} not founded`, '');
-        return next(apiError);
-    }
-
-    request.plant = plant;
-    next();
-}
-
 module.exports = {
     createPlant,
+    getGhPlants,
     getPlant,
     updatePlant,
-    deletePlant,
-    findPlantById
+    deletePlant
 }
