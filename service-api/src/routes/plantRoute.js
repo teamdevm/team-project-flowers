@@ -13,7 +13,10 @@ router.use(express.json());
 router.route('/plant')
     .get(ghMiddle.idMiddle('ghId', true),
         ghMiddle.middle,
-        controller.getGhPlants);
+        controller.getGhPlants)
+    .post(ghMiddle.idMiddle('ghId', true),
+        ghMiddle.middle,
+        controller.createPlant);
 
 router.route('/plant/:id')
     .post(controller.updatePlant) // Create new user

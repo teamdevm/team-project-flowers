@@ -2,9 +2,8 @@ const {Plant, PlantSpecies, PlantGroup} = require('../models/models');
 const {ApiError} = require('../modules/ApiError');
 const {Op} = require('sequelize');
 
-// collection middleware before
 const createPlant = async (request, response, next) => {
-    const greenhouse = request.params.greenhouse;
+    const greenhouse = request.greenhouse;
     const {name, idSpecies, lastWater} = request.body;
 
     if (name == null || idSpecies == null) {
@@ -27,6 +26,18 @@ const createPlant = async (request, response, next) => {
 
     let plant;
     try {
+        plant = await Plant.findOne({
+            where: {
+                name,
+                idGreenhouse: greenhouse.id
+            }
+        });
+
+        if (plant != null) {
+            const apiError = new ApiError(400, `Greenhouse with id ${greenhouse.id} already has plant with name ${name}`, '');
+            return next(apiError);
+        }
+
         plant = await Plant.create({
             name,
             idGreenhouse: greenhouse.id,
@@ -34,14 +45,13 @@ const createPlant = async (request, response, next) => {
             lastWater: lastWater == null ? lastWater : null
         });
     } catch (error) {
-
+        const apiError = new ApiError(500, `Error on creating plant in greenhouse with id ${greenhouse.id}`, error);
+        return next(apiError);
     }
 
     response
         .status(201)
-        .send(JSON.stringify({
-            id: plant.id
-        }))
+        .json({ id: plant.id });
 }
 
 const getGhPlants = async (request, response, next) => {
@@ -59,7 +69,7 @@ const getGhPlants = async (request, response, next) => {
 
     response
         .status(200)
-        .send(JSON.stringify(plants));
+        .json(plants);
 }
 
 const getPlant = async (request, response, next) => {
