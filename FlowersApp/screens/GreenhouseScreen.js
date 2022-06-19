@@ -1,12 +1,64 @@
 import React from 'react';
-import {Text} from "react-native";
+import {FlatList, SafeAreaView, StyleSheet, View} from "react-native";
+import PlantCard from "../components/PlantCard";
 
 export default class GreenhouseScreen extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {plants:[]};
+    }
+    async getPlants(){
+        try {
+            const response = await fetch('http://46.146.230.198:3000/plant?ghId=1',{
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok)
+            {
+                const plants = await response.json();
+                this.setState({plants});
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+
+    async componentDidMount() {
+        await this.getPlants();
+    }
+
+    renderCard({item}){
+        return <PlantCard title={item.name}/>
+    }
+
     render() {
+        const {plants} = this.state;
         return(
-            <Text>
-                Все Супер!
-            </Text>
+            <SafeAreaView>
+                <View style={styles.grid}>
+                    {/*<Button title={'Get Info'} onPress={()=>console.log(plants)}/>*/}
+                    <FlatList
+                    data={plants}
+                    renderItem={this.renderCard}
+                    keyExtractor={plant=>plant.id}
+                    />
+                </View>
+            </SafeAreaView>
         );
     }
 };
+
+const styles = StyleSheet.create({
+    grid:{
+        backgroundColor:'#31bdac',
+        flexDirection:'column',
+        justifyContent:'center',
+        paddingBottom:'5%',
+        height:'100%'
+    },
+});
