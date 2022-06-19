@@ -32,10 +32,6 @@ export default class GreenhouseScreen extends React.Component{
         await this.getPlants();
     }
 
-    renderCard({item}){
-        return <PlantCard title={item.name}/>
-    }
-
     render() {
         const {plants} = this.state;
         return(
@@ -44,7 +40,10 @@ export default class GreenhouseScreen extends React.Component{
                     {/*<Button title={'Get Info'} onPress={()=>console.log(plants)}/>*/}
                     <FlatList
                     data={plants}
-                    renderItem={this.renderCard}
+                    renderItem={({item})=><PlantCard plant={item}
+                                                     navigation={this.props.navigation}
+                                                     screenName={'Plant'}
+                    />}
                     keyExtractor={plant=>plant.id}
                     />
                 </View>

@@ -1,17 +1,21 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from "react-native";
+import {Text, StyleSheet, TouchableOpacity} from "react-native";
+import {withNavigation} from 'react-navigation';
 
-export default class PlantCard extends Component{
+class PlantCard extends Component{
     render(){
-        const {style, title}=this.props
+        const {style, plant,screenName}=this.props;
         return (
-            <TouchableOpacity style={styles.container}>
+            <TouchableOpacity style={styles.container}
+            onPress={()=>this.props.navigation.navigate(screenName,{id:plant.id})}>
                 <Text style={{fontSize:40, color:'#fcb0d5'}}>
-                    {title}
+                    {plant.name}
                 </Text>
             </TouchableOpacity>
         )}
 }
+
+export default withNavigation(PlantCard);
 
 const styles = StyleSheet.create({
     container:{

@@ -13,6 +13,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import GreenhouseScreen from "./screens/GreenhouseScreen";
 import {StyleSheet} from "react-native";
 import HeaderAddBtn from "./components/HeaderAddBtn";
+import PlantScreen from "./screens/PlantScreen";
 
 //margin - отступ элемента от соседа
 //pading - отступ элемент внутри родителя
@@ -31,6 +32,9 @@ const App: () => Node = () => {
                               options={{headerRight:()=>(
                                   <HeaderAddBtn textStyle={[styles.text.header,styles.text.headerBtn]} onPress={()=>alert('Wow!')}/>
                                   )}}
+                />
+                <Stack.Screen name='Plant'
+                              component={PlantScreen}
                 />
             </Stack.Navigator>
         </NavigationContainer>
