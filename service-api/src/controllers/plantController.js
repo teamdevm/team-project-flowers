@@ -60,7 +60,9 @@ const getGhPlants = async (request, response, next) => {
     let plants;
     try {
         plants = await greenhouse.getPlants({
-            joinTableAttributes: ['ghName']
+            attributes: [
+                'id', 'name'
+            ]
         });
     } catch (error) {
         const apiError = new ApiError(500, `Error on select plants in greenhouse with id ${greenhouse.id}`, error);
