@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
 
 export default class PlantScreen extends React.Component{
     constructor(props) {
@@ -36,9 +36,35 @@ export default class PlantScreen extends React.Component{
     render(){
         const {plant} = this.state;
         return(
-        <Text>
-            Имя: {plant.name} ID: {plant.id}
-        </Text>
+            <View style={styles.container}>
+                <Text style={styles.text}>
+                    Имя: {plant.name}
+                </Text>
+                <Text style={styles.text}>
+                    ID: {plant.id}
+                </Text>
+                <Text style={styles.text}>
+                    Последний полив был:
+                </Text>
+                <Text style={styles.text}>
+                    {plant.lastWater}
+                </Text>
+            </View>
         );
     }
 };
+
+const styles = StyleSheet.create({
+    container:{
+        backgroundColor:'#fff41d',
+        flexDirection:'column',
+        justifyContent:'center',
+        alignItems:'center',
+        height:'100%'
+    },
+    text:{
+        color:'#ee057a',
+        fontSize:30,
+        fontWeight:'bold',
+    },
+});

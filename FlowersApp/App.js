@@ -14,6 +14,7 @@ import GreenhouseScreen from "./screens/GreenhouseScreen";
 import {StyleSheet} from "react-native";
 import HeaderAddBtn from "./components/HeaderAddBtn";
 import PlantScreen from "./screens/PlantScreen";
+import AddPlantScreen from "./screens/AddPlantScreen";
 
 //margin - отступ элемента от соседа
 //pading - отступ элемент внутри родителя
@@ -24,17 +25,21 @@ const App: () => Node = () => {
     return(
         <NavigationContainer>
             <Stack.Navigator
-                screenOptions={{...styles.header, ...{headerTitleStyle: {...styles.text.header, ...styles.text.headerTitle}}}}
+                screenOptions={{...styles.header, ...{headerTitleStyle:
+                            {...styles.text.header, ...styles.text.headerTitle}}}}
                 initialRouteName='Greenhouse'
             >
-                <Stack.Screen name='Greenhouse'
-                              component={GreenhouseScreen}
-                              options={{headerRight:()=>(
-                                  <HeaderAddBtn textStyle={[styles.text.header,styles.text.headerBtn]} onPress={()=>alert('Wow!')}/>
-                                  )}}
+                <Stack.Screen
+                    name='Greenhouse'
+                    component={GreenhouseScreen}
                 />
-                <Stack.Screen name='Plant'
-                              component={PlantScreen}
+                <Stack.Screen
+                    name='Plant'
+                    component={PlantScreen}
+                />
+                <Stack.Screen
+                    name='AddPlant'
+                    component={AddPlantScreen}
                 />
             </Stack.Navigator>
         </NavigationContainer>
@@ -58,7 +63,7 @@ const styles = StyleSheet.create({
                 fontSize:40
             },
             headerTitle:{
-                fontSize:30
+                fontSize:25
             }
         }
 });

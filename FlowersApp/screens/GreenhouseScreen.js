@@ -1,6 +1,7 @@
 import React from 'react';
-import {FlatList, SafeAreaView, StyleSheet, View} from "react-native";
+import {Alert, FlatList, SafeAreaView, StyleSheet, View} from "react-native";
 import PlantCard from "../components/PlantCard";
+import HeaderAddBtn from "../components/HeaderAddBtn";
 
 export default class GreenhouseScreen extends React.Component{
     constructor(props) {
@@ -30,6 +31,25 @@ export default class GreenhouseScreen extends React.Component{
 
     async componentDidMount() {
         await this.getPlants();
+
+        this.props.navigation.setOptions(
+            {
+                headerRight: () => (
+                    <HeaderAddBtn
+                        textStyle={[styles.text.header,styles.text.headerBtn]}
+                        onPress={() => this.props.navigation.navigate('AddPlant')}
+                    />
+                )
+            }
+        )
+
+        this._unsubscribe = this.props.navigation.addListener('focus', async() => {
+            await this.getPlants();
+        });
+    }
+
+    async componentWillUnmount() {
+        await this._unsubscribe();
     }
 
     render() {
@@ -40,10 +60,12 @@ export default class GreenhouseScreen extends React.Component{
                     {/*<Button title={'Get Info'} onPress={()=>console.log(plants)}/>*/}
                     <FlatList
                     data={plants}
-                    renderItem={({item})=><PlantCard plant={item}
-                                                     navigation={this.props.navigation}
-                                                     screenName={'Plant'}
-                    />}
+                    renderItem={({item})=>
+                        <PlantCard
+                            plant={item}
+                            navigation={this.props.navigation}
+                            screenName={'Plant'}
+                        />}
                     keyExtractor={plant=>plant.id}
                     />
                 </View>
@@ -60,4 +82,17 @@ const styles = StyleSheet.create({
         paddingBottom:'5%',
         height:'100%'
     },
+    text:
+        {
+            header:{
+                color:'yellow',
+                //fontStile:''
+            },
+            headerBtn:{
+                fontSize:40
+            },
+            headerTitle:{
+                fontSize:30
+            }
+        }
 });

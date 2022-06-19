@@ -8,7 +8,7 @@ class PlantCard extends Component{
         return (
             <TouchableOpacity style={styles.container}
             onPress={()=>this.props.navigation.navigate(screenName,{id:plant.id})}>
-                <Text style={{fontSize:40, color:'#fcb0d5'}}>
+                <Text style={{fontSize:30, color:'#fcb0d5'}}>
                     {plant.name}
                 </Text>
             </TouchableOpacity>
@@ -23,7 +23,9 @@ const styles = StyleSheet.create({
         width:'90%',
         borderRadius:15,
         alignSelf:'center',
-        marginTop:20,
+        justifyContent:'center',
+        marginTop:30,
+        height:60,
         //maxWidth:1000,
         alignItems:'center',
         //marginLeft:'5%'
