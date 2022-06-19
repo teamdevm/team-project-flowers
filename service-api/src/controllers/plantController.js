@@ -73,11 +73,34 @@ const getGhPlants = async (request, response, next) => {
 }
 
 const getPlant = async (request, response, next) => {
-    const plant = request.plant;
+    const {id} = request.params;
+
+    let plant;
+    try {
+        plant = await Plant.findByPk(id, {
+            attributes: ['id', 'name', 'createdAt', 'idGreenhouse', 'lastWater'],
+            include: {
+                association: 'species',
+                attributes: ['id', 'name'],
+                include: {
+                    association: 'group',
+                    attributes: ['id', 'name']
+                }
+            },
+        });
+    } catch (error) {
+        const apiError = new ApiError(500, `Error on select plants in greenhouse with id ${greenhouse.id}`, error);
+        return next(apiError);
+    }
+
+    if (plant == null) {
+        const apiError = new ApiError(404, `Plant with ${id} not founded`, '');
+        return next(apiError);
+    }
 
     response
         .status(200)
-        .send(JSON.stringify(request.plant));
+        .json(plant);
 }
 
 const updatePlant = async (request, response, next) => {
