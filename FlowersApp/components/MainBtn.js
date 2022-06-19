@@ -1,11 +1,11 @@
 import React from 'react';
 import {Text, TouchableOpacity, StyleSheet} from "react-native";
 
-const LaunchBtn = (props) => {
+const MainBtn = (props) => {
     return (
         <TouchableOpacity style={styles.container} onPress={props.onPress}>
             <Text style={styles.text}>
-                Начать
+                {props.text}
             </Text>
         </TouchableOpacity>
     );
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = LaunchBtn;
+module.exports = MainBtn;
