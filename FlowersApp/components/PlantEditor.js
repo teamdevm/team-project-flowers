@@ -42,12 +42,19 @@ class PlantEditor extends Component{
     render(){
         return(
         <View style={styles.container}>
-            <TextInput
-                style={styles.input}
-                placeholder={'Имя...'}
-                onChangeText={(name)=>this.setState({name})}
-            />
-            <MainBtn text={'Добавить'} onPress={async ()=>{
+
+            <View style={{alignItems:'center'}}>
+                <TextInput
+                    style={styles.input}
+                    placeholder={'Имя'}
+                    onChangeText={(name)=>this.setState({name})}
+                />
+                <Text style={{color: '#575757',fontSize:18,fontStyle:'italic'}}>
+                    Введите имя растения
+                </Text>
+            </View>
+
+            <MainBtn text={'Готово'} onPress={async ()=>{
                 await this.createPlant();
             }}/>
         </View>
@@ -60,7 +67,9 @@ export default withNavigation(PlantEditor);
 const styles = StyleSheet.create({
     container:{
         flexDirection:'column',
-        justifyContent:'center',
+        justifyContent:'space-between',
+        flex:1,
+        padding:20,
         alignItems:'center'
     },
     text:{
@@ -68,9 +77,12 @@ const styles = StyleSheet.create({
         fontWeight:'bold'
     },
     input:{
-        height:40,
-        width:300,
-        margin:12,
-        borderWidth:1
+        height:55,
+        width:250,
+        fontSize:26,
+        borderBottomWidth:1,
+        alignItems:'center',
+        justifyContent:'center',
+        textAlign:'center'
     }
 });

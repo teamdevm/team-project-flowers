@@ -11,7 +11,7 @@ export default class AddPlantScreen extends React.Component {
     async componentDidMount() {
         this.props.navigation.setOptions(
             {
-                headerTitle:'Добавить растение'
+                headerTitle:'Режим создания'
             }
         )
     }

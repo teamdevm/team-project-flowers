@@ -6,7 +6,7 @@ const TrashBtn = (props) => {
     return (
         <TouchableOpacity style={[styles.container,{width:props.width, height:props.height}]}
                           onPress={props.onPress}>
-            <Trash width={'100%'} height={'100%'} fill='black'/>
+            <Trash width={'100%'} height={'100%'} fill={'#575757'}/>
         </TouchableOpacity>
     );
 };
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     container:{
         alignItems:'center',
         justifyContent:'center',
-        backgroundColor:'red',
-        borderRadius:20,
+        backgroundColor:'#ff9999',
+        borderRadius:9,
     }
 });

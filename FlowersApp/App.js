@@ -32,6 +32,7 @@ const App: () => Node = () => {
                 <Stack.Screen
                     name='Greenhouse'
                     component={GreenhouseScreen}
+
                 />
                 <Stack.Screen
                     name='Plant'
@@ -49,21 +50,20 @@ const App: () => Node = () => {
 const styles = StyleSheet.create({
     header:{
         headerStyle:{
-            backgroundColor:'#ea4d1f'
+            backgroundColor:'#f5f5f5'
         },
         headerTitleAlign:'center'
     },
     text:
         {
             header:{
-                color:'yellow',
-                //fontStile:''
+                color:'#575757'
             },
             headerBtn:{
                 fontSize:40
             },
             headerTitle:{
-                fontSize:25
+                fontSize:25,
             }
         }
 });

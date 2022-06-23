@@ -1,5 +1,7 @@
 import React from 'react';
-import {StyleSheet, Text, View} from "react-native";
+import {Button, StyleSheet, Text, View} from "react-native";
+import TrashBtn from '../components/TrashBtn';
+import Flower from '../Assets/niceflower.svg';
 
 export default class PlantScreen extends React.Component{
     constructor(props) {
@@ -36,35 +38,73 @@ export default class PlantScreen extends React.Component{
     render(){
         const {plant} = this.state;
         return(
-            <View style={styles.container}>
-                <Text style={styles.text}>
-                    Имя: {plant.name}
-                </Text>
-                <Text style={styles.text}>
-                    ID: {plant.id}
-                </Text>
-                <Text style={styles.text}>
-                    Последний полив был:
-                </Text>
-                <Text style={styles.text}>
-                    {plant.lastWater}
-                </Text>
+            <View style={styles.mainContainer}>
+
+                <View style={styles.planInfoContainer}>
+
+                    <View style={styles.flower}>
+                        <Flower width={'100%'} height={'100%'}/>
+                    </View>
+
+                    <Text style={styles.text}>
+                        {plant.name}
+                    </Text>
+
+                    <View style={{alignItems:'center'}}>
+                        <Text style={styles.text}>
+                            Дата последнего полива:
+                        </Text>
+                        <Text style={styles.text}>
+                            {plant.lastWater}
+                        </Text>
+                    </View>
+
+                </View>
+
+                <View style={styles.btnContainer}>
+                    <View style={{height:50,width:130,backgroundColor:'#0099FF'}}/>
+                </View>
+
+                <View style={styles.trashContainer}>
+                    <TrashBtn width={54} height={54}/>
+                </View>
+
             </View>
         );
     }
 };
 
 const styles = StyleSheet.create({
-    container:{
-        backgroundColor:'#fff41d',
+    mainContainer:{
+        backgroundColor:'#ffffff',
         flexDirection:'column',
-        justifyContent:'center',
-        alignItems:'center',
         height:'100%'
     },
     text:{
-        color:'#ee057a',
-        fontSize:30,
-        fontWeight:'bold',
+        color:'#575757',
+        fontSize:26,
     },
+    flower:{
+        flex:0.7,
+        justifyContent:'center',
+        alignItems:'center',
+        width:160,
+        paddingTop:20
+    },
+    planInfoContainer:{
+        flex:2.5,
+        justifyContent:'space-between',
+        alignItems:'center'
+    },
+    btnContainer:{
+        flex:1,
+        justifyContent:'flex-end',
+        alignItems:'center'
+    },
+    trashContainer:{
+        flex:1,
+        justifyContent:'flex-end',
+        alignItems:'flex-end',
+        margin:20
+    }
 });

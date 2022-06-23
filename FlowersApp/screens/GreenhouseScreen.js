@@ -30,7 +30,6 @@ export default class GreenhouseScreen extends React.Component{
     }
 
     async componentDidMount() {
-        await this.getPlants();
 
         this.props.navigation.setOptions(
             {
@@ -39,13 +38,26 @@ export default class GreenhouseScreen extends React.Component{
                         textStyle={[styles.text.header,styles.text.headerBtn]}
                         onPress={() => this.props.navigation.navigate('AddPlant')}
                     />
-                )
+                ),
+                headerTitle:'Ваши растения'
             }
         )
 
-        this._unsubscribe = this.props.navigation.addListener('focus', async() => {
-            await this.getPlants();
-        });
+        try {
+            this._unsubscribe = this.props.navigation.addListener('focus', async () => {
+                await this.getPlants();
+            });
+        }
+        catch (e) {
+            Alert.alert(e);
+        }
+
+        try{
+        await this.getPlants();
+        }
+        catch (e) {
+            Alert.alert(e);
+        }
     }
 
     async componentWillUnmount() {
@@ -76,7 +88,7 @@ export default class GreenhouseScreen extends React.Component{
 
 const styles = StyleSheet.create({
     grid:{
-        backgroundColor:'#31bdac',
+        backgroundColor:'#ffffff',
         flexDirection:'column',
         justifyContent:'center',
         paddingBottom:'5%',
@@ -85,8 +97,7 @@ const styles = StyleSheet.create({
     text:
         {
             header:{
-                color:'yellow',
-                //fontStile:''
+                color:'#575757',
             },
             headerBtn:{
                 fontSize:40
