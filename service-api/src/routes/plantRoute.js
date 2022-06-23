@@ -1,6 +1,7 @@
 const express = require('express');
 const controller = require('../controllers/plantController');
-const ghMiddle = require('../controllers/middlewares/findGreenhouse')
+const ghMiddle = require('../controllers/middlewares/findGreenhouse');
+const plMiddle = require('../controllers/middlewares/findPlant');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const {apiErrorMiddle} = require('../modules/ApiError')
@@ -19,9 +20,13 @@ router.route('/plant')
         controller.createPlant);
 
 router.route('/plant/:id')
-    .post(controller.updatePlant) // Create new user
-    .get(controller.getPlant) // Get list of users
-    .delete(controller.deletePlant);
+    .post(plMiddle.idMiddle('id', false),
+        plMiddle.middle,
+        controller.updatePlant)
+    .get(controller.getPlant)
+    .delete(plMiddle.idMiddle('id', false),
+        plMiddle.middle,
+        controller.deletePlant);
 
 router.use(apiErrorMiddle);
 
