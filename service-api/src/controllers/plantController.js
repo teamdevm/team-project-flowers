@@ -2,9 +2,8 @@ const {Plant, PlantSpecies, PlantGroup} = require('../models/models');
 const {ApiError} = require('../modules/ApiError');
 const {Op} = require('sequelize');
 
-// collection middleware before
 const createPlant = async (request, response, next) => {
-    const greenhouse = request.params.greenhouse;
+    const greenhouse = request.greenhouse;
     const {name, idSpecies, lastWater} = request.body;
 
     if (name == null || idSpecies == null) {
@@ -27,6 +26,18 @@ const createPlant = async (request, response, next) => {
 
     let plant;
     try {
+        plant = await Plant.findOne({
+            where: {
+                name,
+                idGreenhouse: greenhouse.id
+            }
+        });
+
+        if (plant != null) {
+            const apiError = new ApiError(400, `Greenhouse with id ${greenhouse.id} already has plant with name ${name}`, '');
+            return next(apiError);
+        }
+
         plant = await Plant.create({
             name,
             idGreenhouse: greenhouse.id,
@@ -34,20 +45,64 @@ const createPlant = async (request, response, next) => {
             lastWater: lastWater == null ? lastWater : null
         });
     } catch (error) {
-
+        const apiError = new ApiError(500, `Error on creating plant in greenhouse with id ${greenhouse.id}`, error);
+        return next(apiError);
     }
 
     response
         .status(201)
-        .send(JSON.stringify({
-            id: plant.id
-        }))
+        .json({ id: plant.id });
+}
+
+const getGhPlants = async (request, response, next) => {
+    const greenhouse = request.greenhouse;
+
+    let plants;
+    try {
+        plants = await greenhouse.getPlants({
+            attributes: [
+                'id', 'name'
+            ]
+        });
+    } catch (error) {
+        const apiError = new ApiError(500, `Error on select plants in greenhouse with id ${greenhouse.id}`, error);
+        return next(apiError);
+    }
+
+    response
+        .status(200)
+        .json(plants);
 }
 
 const getPlant = async (request, response, next) => {
+    const {id} = request.params;
+
+    let plant;
+    try {
+        plant = await Plant.findByPk(id, {
+            attributes: ['id', 'name', 'createdAt', 'idGreenhouse', 'lastWater'],
+            include: {
+                association: 'species',
+                attributes: ['id', 'name'],
+                include: {
+                    association: 'group',
+                    attributes: ['id', 'name']
+                }
+            },
+        });
+    } catch (error) {
+        const apiError = new ApiError(500, `Error on select plants in greenhouse with id ${greenhouse.id}`, error);
+        return next(apiError);
+    }
+
+    if (plant == null) {
+        const apiError = new ApiError(404, `Plant with ${id} not founded`, '');
+        return next(apiError);
+    }
+
     response
         .status(200)
-        .send(JSON.stringify(request.plant));
+        .json(plant);
 }
 
 const updatePlant = async (request, response, next) => {
@@ -110,44 +165,10 @@ const deletePlant = async (request, response, next) => {
         .end();
 }
 
-const findPlantById = async (request, response, next) => {
-    const id = request.params.id;
-
-    if (id == null) {
-        const apiError = new ApiError(400, `Bad plant id`, '');
-        return next(apiError);
-    }
-
-    let plant;
-    try {
-        plant = await Plant.findByPk(id, {
-            include: {
-                model: PlantSpecies,
-                as: 'species',
-                include: {
-                    model: PlantGroup,
-                    as: 'group'
-                }
-            }
-        });
-    } catch (error) {
-        const apiError = new ApiError(500, `Error on find plant by id`, error);
-        return next(apiError);
-    }
-
-    if (plant == null) {
-        const apiError = new ApiError(404, `Plant with id ${id} not founded`, '');
-        return next(apiError);
-    }
-
-    request.plant = plant;
-    next();
-}
-
 module.exports = {
     createPlant,
+    getGhPlants,
     getPlant,
     updatePlant,
-    deletePlant,
-    findPlantById
+    deletePlant
 }

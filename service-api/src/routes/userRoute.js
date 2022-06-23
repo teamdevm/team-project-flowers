@@ -1,5 +1,7 @@
 const express = require('express');
-const controller = require('../controllers/userController');
+const usrController = require('../controllers/userController');
+const usrMiddle = require('../controllers/middlewares/findUser');
+const roleController = require('../controllers/userRoleController');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const {apiErrorMiddle} = require('../modules/ApiError')
@@ -10,15 +12,18 @@ router.use(bodyParser.urlencoded({ extended: true }));
 router.use(express.json());
 
 router.route('/user')
-    .post(controller.createUser) // Create new user
-    .get(controller.findAllUsers); // Get list of users
+    .post(usrController.createUser) // Create new user
+    .get(usrController.findAllUsers); // Get list of users
 
 router.route('/user/:id')
-    .get(controller.findUser) // Get user's information
-    .post(controller.updateUser) // Update user's information
-    .delete(controller.deleteUser); // Delete user
+    .get(usrController.findUser) // Get user's information
+    .post(usrController.updateUser) // Update user's information
+    .delete(usrController.deleteUser); // Delete user
 
-router.param('id', controller.findUserById);
+router.route('/user/role')
+    .get(roleController.getRoles); // list of all roles
+
+router.param('id', usrMiddle.idMiddle('id', false));
 
 router.use(apiErrorMiddle);
 
