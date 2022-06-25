@@ -16,6 +16,7 @@ import HeaderAddBtn from "./components/HeaderAddBtn";
 import PlantScreen from "./screens/PlantScreen";
 import AddPlantScreen from "./screens/AddPlantScreen";
 import SpeciesScreen from "./screens/SpeciesScreen";
+import EditPlantScreen from "./screens/EditPlantScreen";
 
 //margin - отступ элемента от соседа
 //pading - отступ элемент внутри родителя
@@ -46,6 +47,10 @@ const App: () => Node = () => {
                 <Stack.Screen
                     name='Species'
                     component={SpeciesScreen}
+                />
+                <Stack.Screen
+                    name='EditPlant'
+                    component={EditPlantScreen}
                 />
             </Stack.Navigator>
         </NavigationContainer>

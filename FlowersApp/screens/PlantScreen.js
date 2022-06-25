@@ -30,7 +30,10 @@ export default class PlantScreen extends React.Component{
             if (response.ok)
             {
                 const plant = await response.json();
-                return plant;
+
+                const waterDate = new Date (plant.lastWater).toLocaleDateString('ru-RU',PlantScreen.DateFormat)
+
+                this.setState({plant,water: waterDate})
             }
         }
         catch (e) {
@@ -39,21 +42,20 @@ export default class PlantScreen extends React.Component{
     }
 
     async componentDidMount() {
-        const plant = await this.getPlantInfo();
 
-        const waterDate = new Date (plant.lastWater).toLocaleDateString('ru-RU',PlantScreen.DateFormat)
-
-        this.setState({plant,water: waterDate})
+        await this.getPlantInfo()
 
         this.props.navigation.setOptions(
             {
                 headerRight: () => (
                     <HeaderEditBtn
                         textStyle={[styles.text.header,styles.text.headerBtn]}
-                        //onPress={() => this.props.navigation.navigate('AddPlant')}
+                        onPress={() => this.props.navigation.navigate('EditPlant',{plant:this.state.plant,onDone:()=>{
+                            this.getPlantInfo().then().catch()
+                            }})}
                     />
                 ),
-                headerTitle:'Инфо'
+                headerTitle:'Информация'
             }
         )
     }

@@ -21,7 +21,7 @@ class PlantEditor extends Component{
     */
 
     render(){
-        const defaultName = this.props.plantName == null? '':this.props.name
+        const defaultName = this.props.plantName == null? '':this.props.plantName
         const defaultSpecies = this.props.speciesName == null? 'Выберете вид':this.props.speciesName
 
         return(

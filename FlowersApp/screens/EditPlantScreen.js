@@ -2,21 +2,22 @@ import React from 'react';
 import {Alert} from "react-native";
 import PlantEditor from "../components/PlantEditor";
 
-export default class AddPlantScreen extends React.Component {
+export default class EditPlantScreen extends React.Component {
     constructor(props) {
         super(props);
-        this.idGreenhouse = 1;
+        const {plant} = this.props.route.params
+        this.idPlant = plant.id;
         this.state = {
-            name:null,
+            name:plant.name,
             species:{
-                name:null,
-                id:null
+                name:plant.species.name,
+                id:plant.species.id
             }
         }
     }
 
-    createPlant(){
-        fetch(`http://46.146.230.198:3000/plant?ghId=${this.idGreenhouse}`,{
+    updatePlant(){
+        fetch(`http://46.146.230.198:3000/plant/${this.idPlant}`,{
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -30,18 +31,23 @@ export default class AddPlantScreen extends React.Component {
             }
             else
             {
-                Alert.alert('Не удалось добавить растение')
+                Alert.alert('Не удалось изменить растение')
+            }
+        }).then(()=>{
+            if(this.props.route.params.onDone!=null)
+            {
+                this.props.route.params.onDone()
             }
         }).catch((error)=>{
             console.log(error)
-            Alert.alert('AddPlant супер ошибка')
+            Alert.alert('EditPlant супер ошибка')
         })
     }
 
     async componentDidMount() {
         this.props.navigation.setOptions(
             {
-                headerTitle:'Режим создания'
+                headerTitle:'Редактирование'
             }
         )
     }
@@ -58,7 +64,7 @@ export default class AddPlantScreen extends React.Component {
         return(
             <PlantEditor
                 onChangeName={this.onChangeName.bind(this)}
-                onSubmit={this.createPlant.bind(this)}
+                onSubmit={this.updatePlant.bind(this)}
                 onChangeSpecies={this.onChangeSpecies.bind(this)}
 
                 navigation={this.props.navigation}
