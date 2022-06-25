@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, TouchableOpacity, StyleSheet, Alert} from "react-native";
+import {TouchableOpacity, StyleSheet, Alert} from "react-native";
 import Trash from "../Assets/icons/delete.svg";
 
 const TrashBtn = (props) => {

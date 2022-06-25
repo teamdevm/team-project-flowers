@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Text, StyleSheet, TouchableOpacity, View, TextInput} from "react-native";
 import {withNavigation} from "react-navigation";
 import MainBtn from './MainBtn'
+import CancelBtn from './CancelBtn'
 
 class PlantEditor extends Component{
     constructor(props) {
@@ -19,6 +20,7 @@ class PlantEditor extends Component{
                 <TextInput
                     style={styles.input}
                     placeholder={'Имя'}
+                    placeholderTextColor={'#D9D9D9'}
                     value={defaultName}
                     onChangeText={(name)=>this.props.onChangeName(name)}
                 />
@@ -43,7 +45,10 @@ class PlantEditor extends Component{
 
             </View>
 
-            <MainBtn text={'Готово'} onPress={this.props.onSubmit}/>
+            <View style={styles.btns}>
+                <CancelBtn text={'Отмена'} onPress={this.props.navigation.goBack}/>
+                <MainBtn text={'Готово'} onPress={this.props.onSubmit}/>
+            </View>
 
         </View>
         )
@@ -85,5 +90,9 @@ const styles = StyleSheet.create({
         marginTop:50,
         minHeight:60,
         alignItems:'center',
+    },
+    btns:{
+        flexDirection:'row',
+        justifyContent:'space-between'
     }
 });

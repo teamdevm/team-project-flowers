@@ -8,7 +8,7 @@ import DateVisualizer from '../components/DateVisualizer';
 export default class PlantScreen extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {plant:{},water:''};
+        this.state = {plant:{}};
     }
 
     static DateFormat = {
@@ -32,9 +32,7 @@ export default class PlantScreen extends React.Component{
             {
                 const plant = await response.json();
 
-                const waterDate = new Date (plant.lastWater).toLocaleDateString('ru-RU',PlantScreen.DateFormat)
-
-                this.setState({plant,water: waterDate})
+                this.setState({plant})
             }
         }
         catch (e) {
@@ -106,7 +104,6 @@ export default class PlantScreen extends React.Component{
 
     render(){
         const {plant} = this.state;
-
         return(
             <SafeAreaView style={styles.mainContainer}>
 
@@ -125,13 +122,14 @@ export default class PlantScreen extends React.Component{
                             Дата последнего полива:
                         </Text>
                         <DateVisualizer style={styles.infoText} date={new Date(this.state.plant.lastWater)}/>
+
                     </View>
 
                 </View>
 
                 <View style={styles.btnContainer}>
                     <TouchableOpacity onPress={this.updateWaterDate.bind(this)}>
-                        <Text style={{height:50,width:130,backgroundColor:'#0099FF'}}>
+                        <Text style={styles.text.waterBtn}>
                             Полить
                         </Text>
                     </TouchableOpacity>
@@ -172,9 +170,10 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     btnContainer:{
-        flex:1,
+        flex:0.8,
         justifyContent:'flex-end',
-        alignItems:'center'
+        alignItems:'center',
+        flexDirection:'column',
     },
     trashContainer:{
         flex:1,
@@ -192,6 +191,16 @@ const styles = StyleSheet.create({
         },
         headerTitle:{
             fontSize:30
+        },
+        waterBtn:{
+            backgroundColor:'#0099FF',
+            color:'#ffffff',
+            height:50,
+            width:130,
+            textAlign:'center',
+            textAlignVertical:'center',
+            fontSize:26,
+            borderRadius:10
         }
     }
 });
