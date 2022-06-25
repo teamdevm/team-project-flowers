@@ -6,40 +6,24 @@ import MainBtn from './MainBtn'
 class PlantEditor extends Component{
     constructor(props) {
         super(props);
-        this.idGreenhouse=props.idGreenhouse;
-        this.state={
-            name:'',
-            idSpecies:2
-        }
     }
 
-    async createPlant(){
-        try {
-            console.log(this.state)
-            const response = await fetch(`http://46.146.230.198:3000/plant?ghId=${this.idGreenhouse}`,{
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body:JSON.stringify(this.state)
-            });
+    /*
+    Что мы видим в props:
 
-            if (response.ok)
-            {
-                this.props.navigation.goBack();
-            }
-            else
-            {
-                console.log(response);
-            }
-        }
-        catch (e) {
-            console.log(e);
-        }
-    }
+    -plantName : 'Имя растения'
+    -speciesName : 'Вид растения'
+
+    -onChangeName & onChangeSpecies
+
+    -onSubmit - кнопка подтверждения
+
+    */
 
     render(){
+        const defaultName = this.props.plantName == null? '':this.props.name
+        const defaultSpecies = this.props.speciesName == null? 'Выберете вид':this.props.speciesName
+
         return(
         <View style={styles.container}>
 
@@ -47,16 +31,32 @@ class PlantEditor extends Component{
                 <TextInput
                     style={styles.input}
                     placeholder={'Имя'}
-                    onChangeText={(name)=>this.setState({name})}
+                    value={defaultName}
+                    onChangeText={(name)=>this.props.onChangeName(name)}
                 />
+
                 <Text style={{color: '#575757',fontSize:18,fontStyle:'italic'}}>
                     Введите имя растения
                 </Text>
+
+                <TouchableOpacity
+                    style={styles.species}
+                    onPress={()=> this.props.navigation.navigate('Species',{onChoose:this.props.onChangeSpecies})}
+                >
+                    <Text style={{fontSize:23, color:'#575757'}}>
+                        {defaultSpecies}
+                    </Text>
+
+                </TouchableOpacity>
+
+                <Text style={{color: '#575757',fontSize:18,fontStyle:'italic'}}>
+                    Выберете вид растения
+                </Text>
+
             </View>
 
-            <MainBtn text={'Готово'} onPress={async ()=>{
-                await this.createPlant();
-            }}/>
+            <MainBtn text={'Готово'} onPress={this.props.onSubmit}/>
+
         </View>
         )
     }
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         justifyContent:'space-between',
         flex:1,
         padding:20,
-        alignItems:'center'
+        //alignItems:'center'
     },
     text:{
         fontSize:14,
@@ -78,11 +78,24 @@ const styles = StyleSheet.create({
     },
     input:{
         height:55,
-        width:250,
+        width:'65%',
         fontSize:26,
+        color:'#575757',
         borderBottomWidth:1,
         alignItems:'center',
         justifyContent:'center',
         textAlign:'center'
+    },
+    species:{
+        backgroundColor:'#ffffff',
+        borderColor:'#BDBDBD',
+        width:'95%',
+        borderRadius:15,
+        borderWidth:2,
+        alignSelf:'center',
+        justifyContent:'center',
+        marginTop:50,
+        minHeight:60,
+        alignItems:'center',
     }
 });

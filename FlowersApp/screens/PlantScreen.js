@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, StyleSheet, Text, View} from "react-native";
+import {SafeAreaView, StyleSheet, Text, View} from "react-native";
 import TrashBtn from '../components/TrashBtn';
 import Flower from '../Assets/niceflower.svg';
 import HeaderEditBtn from "../components/HeaderEditBtn";
@@ -7,7 +7,13 @@ import HeaderEditBtn from "../components/HeaderEditBtn";
 export default class PlantScreen extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {plant:{}};
+        this.state = {plant:{},water:''};
+    }
+
+    static DateFormat = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
     }
 
     async getPlantInfo(){
@@ -24,7 +30,7 @@ export default class PlantScreen extends React.Component{
             if (response.ok)
             {
                 const plant = await response.json();
-                this.setState({plant});
+                return plant;
             }
         }
         catch (e) {
@@ -33,7 +39,12 @@ export default class PlantScreen extends React.Component{
     }
 
     async componentDidMount() {
-        await this.getPlantInfo();
+        const plant = await this.getPlantInfo();
+
+        const waterDate = new Date (plant.lastWater).toLocaleDateString('ru-RU',PlantScreen.DateFormat)
+
+        this.setState({plant,water: waterDate})
+
         this.props.navigation.setOptions(
             {
                 headerRight: () => (
@@ -69,8 +80,9 @@ export default class PlantScreen extends React.Component{
 
     render(){
         const {plant} = this.state;
+
         return(
-            <View style={styles.mainContainer}>
+            <SafeAreaView style={styles.mainContainer}>
 
                 <View style={styles.planInfoContainer}>
 
@@ -87,7 +99,7 @@ export default class PlantScreen extends React.Component{
                             Дата последнего полива:
                         </Text>
                         <Text style={styles.infoText}>
-                            {plant.lastWater}
+                            {this.state.water}
                         </Text>
                     </View>
 
@@ -103,7 +115,7 @@ export default class PlantScreen extends React.Component{
                     }}/>
                 </View>
 
-            </View>
+            </SafeAreaView>
         );
     }
 };
@@ -120,7 +132,7 @@ const styles = StyleSheet.create({
         textAlign:'center'
     },
     flower:{
-        flex:0.7,
+        flex:0.6,
         justifyContent:'center',
         alignItems:'center',
         width:160,

@@ -15,6 +15,7 @@ import {StyleSheet} from "react-native";
 import HeaderAddBtn from "./components/HeaderAddBtn";
 import PlantScreen from "./screens/PlantScreen";
 import AddPlantScreen from "./screens/AddPlantScreen";
+import SpeciesScreen from "./screens/SpeciesScreen";
 
 //margin - отступ элемента от соседа
 //pading - отступ элемент внутри родителя
@@ -41,6 +42,10 @@ const App: () => Node = () => {
                 <Stack.Screen
                     name='AddPlant'
                     component={AddPlantScreen}
+                />
+                <Stack.Screen
+                    name='Species'
+                    component={SpeciesScreen}
                 />
             </Stack.Navigator>
         </NavigationContainer>
