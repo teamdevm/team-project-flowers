@@ -8,18 +8,6 @@ class PlantEditor extends Component{
         super(props);
     }
 
-    /*
-    Что мы видим в props:
-
-    -plantName : 'Имя растения'
-    -speciesName : 'Вид растения'
-
-    -onChangeName & onChangeSpecies
-
-    -onSubmit - кнопка подтверждения
-
-    */
-
     render(){
         const defaultName = this.props.plantName == null? '':this.props.plantName
         const defaultSpecies = this.props.speciesName == null? 'Выберете вид':this.props.speciesName

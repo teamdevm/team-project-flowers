@@ -1,8 +1,9 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, Text, View} from "react-native";
+import {Alert, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import TrashBtn from '../components/TrashBtn';
 import Flower from '../Assets/niceflower.svg';
 import HeaderEditBtn from "../components/HeaderEditBtn";
+import DateVisualizer from '../components/DateVisualizer';
 
 export default class PlantScreen extends React.Component{
     constructor(props) {
@@ -80,6 +81,29 @@ export default class PlantScreen extends React.Component{
         }
     }
 
+    updateWaterDate(){
+        fetch(`http://46.146.230.198:3000/plant/${this.state.plant.id}`,{
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify({name:this.state.plant.name,idSpecies:this.state.plant.species.id,lastWater:new Date()})
+        }).then(async (response)=>{
+            if(response.ok)
+            {
+                await this.getPlantInfo();
+            }
+            else
+            {
+                Alert.alert('Не удалось изменить дату полива')
+            }
+        }).catch((error)=>{
+            console.log(error)
+            Alert.alert('PlantScreen полив супер ошибка')
+        })
+    }
+
     render(){
         const {plant} = this.state;
 
@@ -100,15 +124,17 @@ export default class PlantScreen extends React.Component{
                         <Text style={styles.infoText}>
                             Дата последнего полива:
                         </Text>
-                        <Text style={styles.infoText}>
-                            {this.state.water}
-                        </Text>
+                        <DateVisualizer style={styles.infoText} date={new Date(this.state.plant.lastWater)}/>
                     </View>
 
                 </View>
 
                 <View style={styles.btnContainer}>
-                    <View style={{height:50,width:130,backgroundColor:'#0099FF'}}/>
+                    <TouchableOpacity onPress={this.updateWaterDate.bind(this)}>
+                        <Text style={{height:50,width:130,backgroundColor:'#0099FF'}}>
+                            Полить
+                        </Text>
+                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.trashContainer}>
