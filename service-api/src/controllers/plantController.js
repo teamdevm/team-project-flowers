@@ -155,7 +155,7 @@ const updatePlant = async (request, response, next) => {
             params.push('name');
         }
         if (lastWater != null) {
-            plant.lastWater = lastWater;
+            plant.lastWater = new Date(lastWater);
             params.push('lastWater');
         }
         if (idSpecies != null) {
