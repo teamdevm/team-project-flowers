@@ -1,3 +1,4 @@
 .vs
 .idea
 android/app/src/main/assets
+.env*

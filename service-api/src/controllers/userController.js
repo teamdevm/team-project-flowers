@@ -71,31 +71,6 @@ const findUser = async (request, response, next) => {
         .send(JSON.stringify(user));
 };
 
-const findUserById = async (request, response, next) => {
-    const id = request.params.id;
-
-    if (id == null) {
-        const apiError = new ApiError(400, `Bad user id`, '');
-        return next(apiError);
-    }
-
-    let user;
-    try {
-        user = await User.findByPk(id);
-    } catch (error) {
-        const apiError = new ApiError(500, `Error on find user by id`, error);
-        return next(apiError);
-    }
-
-    if (user == null) {
-        const apiError = new ApiError(404, `User with id ${id} not founded`, '');
-        return next(apiError);
-    }
-
-    request.user = user;
-    next();
-}
-
 const updateUser = async (request, response, next) => {
     const user = request.user;
 
@@ -148,7 +123,6 @@ module.exports = {
     createUser,
     findAllUsers,
     findUser,
-    findUserById,
     updateUser,
     deleteUser
 }
