@@ -1,11 +1,11 @@
 import React from 'react';
 import {Text, TouchableOpacity, StyleSheet} from "react-native";
 
-const LaunchBtn = (props) => {
+const MainBtn = (props) => {
     return (
         <TouchableOpacity style={styles.container} onPress={props.onPress}>
             <Text style={styles.text}>
-                Начать
+                {props.text}
             </Text>
         </TouchableOpacity>
     );
@@ -16,17 +16,18 @@ const styles = StyleSheet.create({
         flexDirection:'column',
         justifyContent:'center',
         alignItems:'center',
-        backgroundColor:'#4e9ae9',
+        alignSelf:'center',
+        backgroundColor:'#339933',
         height:50,
-        borderRadius:20
+        width:130,
+        borderRadius:15
     },
     text:{
         textAlign:'center',
-        width:180,
-        fontSize:14,
+        fontSize:26,
         fontWeight:'bold',
-        color:'white'
+        color:'#FFFFFF'
     }
 });
 
-module.exports = LaunchBtn;
+module.exports = MainBtn;

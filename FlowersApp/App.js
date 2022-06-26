@@ -13,6 +13,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import GreenhouseScreen from "./screens/GreenhouseScreen";
 import {StyleSheet} from "react-native";
 import HeaderAddBtn from "./components/HeaderAddBtn";
+import PlantScreen from "./screens/PlantScreen";
+import AddPlantScreen from "./screens/AddPlantScreen";
+import SpeciesScreen from "./screens/SpeciesScreen";
+import EditPlantScreen from "./screens/EditPlantScreen";
 
 //margin - отступ элемента от соседа
 //pading - отступ элемент внутри родителя
@@ -23,14 +27,30 @@ const App: () => Node = () => {
     return(
         <NavigationContainer>
             <Stack.Navigator
-                screenOptions={{...styles.header, ...{headerTitleStyle: {...styles.text.header, ...styles.text.headerTitle}}}}
+                screenOptions={{...styles.header, ...{headerTitleStyle:
+                            {...styles.text.header, ...styles.text.headerTitle}}}}
                 initialRouteName='Greenhouse'
             >
-                <Stack.Screen name='Greenhouse'
-                              component={GreenhouseScreen}
-                              options={{headerRight:()=>(
-                                  <HeaderAddBtn textStyle={[styles.text.header,styles.text.headerBtn]} onPress={()=>alert('Wow!')}/>
-                                  )}}
+                <Stack.Screen
+                    name='Greenhouse'
+                    component={GreenhouseScreen}
+
+                />
+                <Stack.Screen
+                    name='Plant'
+                    component={PlantScreen}
+                />
+                <Stack.Screen
+                    name='AddPlant'
+                    component={AddPlantScreen}
+                />
+                <Stack.Screen
+                    name='Species'
+                    component={SpeciesScreen}
+                />
+                <Stack.Screen
+                    name='EditPlant'
+                    component={EditPlantScreen}
                 />
             </Stack.Navigator>
         </NavigationContainer>
@@ -40,21 +60,20 @@ const App: () => Node = () => {
 const styles = StyleSheet.create({
     header:{
         headerStyle:{
-            backgroundColor:'#ea4d1f'
+            backgroundColor:'#f5f5f5'
         },
         headerTitleAlign:'center'
     },
     text:
         {
             header:{
-                color:'yellow',
-                //fontStile:''
+                color:'#575757'
             },
             headerBtn:{
                 fontSize:40
             },
             headerTitle:{
-                fontSize:30
+                fontSize:25,
             }
         }
 });

@@ -1,6 +1,7 @@
 import React from 'react';
-import {FlatList, SafeAreaView, StyleSheet, View} from "react-native";
+import {Alert, FlatList, SafeAreaView, StyleSheet, View} from "react-native";
 import PlantCard from "../components/PlantCard";
+import HeaderAddBtn from "../components/HeaderAddBtn";
 
 export default class GreenhouseScreen extends React.Component{
     constructor(props) {
@@ -29,11 +30,38 @@ export default class GreenhouseScreen extends React.Component{
     }
 
     async componentDidMount() {
+
+        this.props.navigation.setOptions(
+            {
+                headerRight: () => (
+                    <HeaderAddBtn
+                        textStyle={[styles.text.header,styles.text.headerBtn]}
+                        onPress={() => this.props.navigation.navigate('AddPlant')}
+                    />
+                ),
+                headerTitle:'Ваши растения'
+            }
+        )
+
+        try {
+            this._unsubscribe = this.props.navigation.addListener('focus', async () => {
+                await this.getPlants();
+            });
+        }
+        catch (e) {
+            Alert.alert(e);
+        }
+
+        try{
         await this.getPlants();
+        }
+        catch (e) {
+            Alert.alert(e);
+        }
     }
 
-    renderCard({item}){
-        return <PlantCard title={item.name}/>
+    async componentWillUnmount() {
+        await this._unsubscribe();
     }
 
     render() {
@@ -44,7 +72,12 @@ export default class GreenhouseScreen extends React.Component{
                     {/*<Button title={'Get Info'} onPress={()=>console.log(plants)}/>*/}
                     <FlatList
                     data={plants}
-                    renderItem={this.renderCard}
+                    renderItem={({item})=>
+                        <PlantCard
+                            plant={item}
+                            navigation={this.props.navigation}
+                            screenName={'Plant'}
+                        />}
                     keyExtractor={plant=>plant.id}
                     />
                 </View>
@@ -55,10 +88,22 @@ export default class GreenhouseScreen extends React.Component{
 
 const styles = StyleSheet.create({
     grid:{
-        backgroundColor:'#31bdac',
+        backgroundColor:'#ffffff',
         flexDirection:'column',
         justifyContent:'center',
         paddingBottom:'5%',
         height:'100%'
     },
+    text:
+        {
+            header:{
+                color:'#575757',
+            },
+            headerBtn:{
+                fontSize:40
+            },
+            headerTitle:{
+                fontSize:30
+            }
+        }
 });
