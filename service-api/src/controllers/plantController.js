@@ -11,6 +11,18 @@ const createPlant = async (request, response, next) => {
         return next(apiError);
     }
 
+    // name validation
+    let notEmptyName = name.trim();
+    if (notEmptyName === '') {
+        const apiError = new ApiError(400, 'Name is empty', '');
+        return next(apiError);
+    }
+
+    if (notEmptyName.length > 25) {
+        const apiError = new ApiError(400, 'Long plant name', '');
+        return next(apiError);
+    }
+
     let species;
     try {
         species = await PlantSpecies.findByPk(idSpecies);
@@ -28,18 +40,18 @@ const createPlant = async (request, response, next) => {
     try {
         plant = await Plant.findOne({
             where: {
-                name,
+                name: notEmptyName,
                 idGreenhouse: greenhouse.id
             }
         });
 
         if (plant != null) {
-            const apiError = new ApiError(400, `Greenhouse with id ${greenhouse.id} already has plant with name ${name}`, '');
+            const apiError = new ApiError(400, `Greenhouse with id ${greenhouse.id} already has plant with name ${notEmptyName}`, '');
             return next(apiError);
         }
 
         plant = await Plant.create({
-            name,
+            name: notEmptyName,
             idGreenhouse: greenhouse.id,
             idSpecies,
             lastWater: lastWater == null ? lastWater : null
@@ -125,7 +137,19 @@ const updatePlant = async (request, response, next) => {
     let params = [];
     try {
         if (name != null) {
-            plant.name = name;
+            // name validation
+            let notEmptyName = name.trim();
+            if (notEmptyName === '') {
+                const apiError = new ApiError(400, 'Name is empty', '');
+                return next(apiError);
+            }
+
+            if (notEmptyName.length > 25) {
+                const apiError = new ApiError(400, 'Long plant name', '');
+                return next(apiError);
+            }
+
+            plant.name = notEmptyName;
             params.push('name');
         }
         if (lastWater != null) {
