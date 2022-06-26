@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+  api:
+    build: service-api
+    container_name: "FlowersAPI"
+    depends_on:
+      database:
+        condition: service_healthy
+    links:
+      - "database"
+    ports:
+      - "${API_PORT}:3000"
+    environment:
+      DB_NAME: "${DB_NAME}"
+      DB_USER: "${DB_USER}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      DB_HOST: "database"
+      DB_PORT: "${DB_PORT}"
+  database:
+    image: 'postgres:latest'
+    container_name: "FlowersDB"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d ${DB_NAME} -U ${DB_USER}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "${DB_PORT}:5432"
+    environment:
+      POSTGRES_USER: "${DB_USER}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD}"
+      POSTGRES_DB: "${DB_NAME}"
+    volumes:
+      - ./flowers-db/pgdata:/var/lib/postgresql/data
+      - ./flowers-db:/docker-entrypoint-initdb.d
+
+volumes:
+  pgdata:
