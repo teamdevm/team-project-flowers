@@ -121,17 +121,19 @@ const updatePlant = async (request, response, next) => {
     const plant = request.plant;
     const {name, lastWater, idSpecies} = request.body;
 
-    let species;
-    try {
-        species = await PlantSpecies.findByPk(idSpecies);
-    } catch (error) {
-        const apiError = new ApiError(500, `Error on find species`, error);
-        return next(apiError);
-    }
+    if (idSpecies != null) {
+        let species;
+        try {
+            species = await PlantSpecies.findByPk(idSpecies);
+        } catch (error) {
+            const apiError = new ApiError(500, `Error on find species`, error);
+            return next(apiError);
+        }
 
-    if (species == null) {
-        const apiError = new ApiError(400, `Species with ${idSpecies} doesn't exist`, '');
-        return next(apiError);
+        if (species == null) {
+            const apiError = new ApiError(400, `Species with ${idSpecies} doesn't exist`, '');
+            return next(apiError);
+        }
     }
 
     let params = [];
