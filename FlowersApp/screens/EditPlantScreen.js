@@ -27,20 +27,22 @@ export default class EditPlantScreen extends React.Component {
         }).then((response)=>{
             if(response.ok)
             {
-                this.props.navigation.goBack()
+                this.props.navigation.goBack();
+                return true;
             }
             else
             {
-                Alert.alert('Не удалось изменить растение')
+                Alert.alert('Не удалось изменить растение');
+                return false;
             }
-        }).then(()=>{
-            if(this.props.route.params.onDone!=null)
+        }).then((success)=>{
+            if(success && this.props.route.params.onDone!=null)
             {
                 this.props.route.params.onDone()
             }
         }).catch((error)=>{
             console.log(error)
-            Alert.alert('EditPlant супер ошибка')
+            Alert.alert('Не удалось изменить растение')
         })
     }
 

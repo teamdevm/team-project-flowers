@@ -23,9 +23,13 @@ export default class GreenhouseScreen extends React.Component{
                 const plants = await response.json();
                 this.setState({plants});
             }
+            else {
+                Alert.alert('Не удалось загрузить список ошибок');
+            }
         }
         catch (e) {
             console.log(e);
+            Alert.alert('Не удалось загрузить список растений');
         }
     }
 

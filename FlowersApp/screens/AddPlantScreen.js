@@ -34,7 +34,7 @@ export default class AddPlantScreen extends React.Component {
             }
         }).catch((error)=>{
             console.log(error)
-            Alert.alert('AddPlant супер ошибка')
+            Alert.alert('Не удалось добавить растение');
         })
     }
 

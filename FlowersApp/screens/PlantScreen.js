@@ -36,7 +36,8 @@ export default class PlantScreen extends React.Component{
             }
         }
         catch (e) {
-            console.log(e);
+            Alert.alert('Не удалось загрузить информацию о растении');
+            this.props.navigation.goBack();
         }
     }
 
@@ -75,7 +76,8 @@ export default class PlantScreen extends React.Component{
             }
         }
         catch (e) {
-            console.log(e);
+            Alert.alert('Не удалось удалить растение');
+            this.props.naviagtion.goBack();
         }
     }
 
@@ -98,7 +100,7 @@ export default class PlantScreen extends React.Component{
             }
         }).catch((error)=>{
             console.log(error)
-            Alert.alert('PlantScreen полив супер ошибка')
+            Alert.alert('Не удалось изменить дату полива');
         })
     }
 

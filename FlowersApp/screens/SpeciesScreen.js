@@ -1,5 +1,5 @@
 import React from 'react'
-import {SafeAreaView, SectionList, View} from "react-native";
+import {Alert, SafeAreaView, SectionList, View} from "react-native";
 import {Species,SpeciesGroup} from '../components/SpeciesListItems'
 
 export default class SpeciesScreen extends React.Component{
@@ -22,11 +22,15 @@ export default class SpeciesScreen extends React.Component{
             {
                 const species = await response.json();
                 return species.map((group)=>{return{name:group.name,data:group.species}});
-                //this.props.navigation.goBack();
+            }
+            else {
+                Alert.alert('Не удалось получить список видов растений');
+                this.props.navigation.goBack();
             }
         }
         catch (e) {
-            console.log(e);
+            Alert.alert('Не удалось получить список видов растений');
+            this.props.navigation.goBack();
         }
     }
 
