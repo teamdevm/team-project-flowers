@@ -134,7 +134,7 @@ export default class PlantScreen extends React.Component{
                 </View>
 
                 <View style={styles.btnContainer}>
-                    <TouchableOpacity onPress={this.updateWaterDate.bind(this)}>
+                    <TouchableOpacity onPress={this.updateWaterDate.bind(this)} style={styles.waterBtn}>
                         <Text style={styles.text.waterBtn}>
                             Полить
                         </Text>
@@ -187,6 +187,14 @@ const styles = StyleSheet.create({
         alignItems:'flex-end',
         margin:20
     },
+    waterBtn: {
+        backgroundColor:'#0099FF',
+        justifyContent:'center',
+        alignItems:'center',
+        height:50,
+        width:130,
+        borderRadius:10
+    },
     text:
     {
         header:{
@@ -199,14 +207,10 @@ const styles = StyleSheet.create({
             fontSize:30
         },
         waterBtn:{
-            backgroundColor:'#0099FF',
             color:'#ffffff',
-            height:50,
-            width:130,
             textAlign:'center',
             textAlignVertical:'center',
-            fontSize:26,
-            borderRadius:10
+            fontSize:26
         }
     }
 });

@@ -65,6 +65,7 @@ export default class SpeciesScreen extends React.Component{
                         <SpeciesGroup
                             groupName={name}
                         />}
+                    stickySectionHeadersEnabled={false}
                 />
             </SafeAreaView>
         );
