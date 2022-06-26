@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
         justifyContent:'space-between',
         flex:1,
         padding:20,
+        backgroundColor: '#ffffff'
         //alignItems:'center'
     },
     text:{
