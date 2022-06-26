@@ -8,7 +8,7 @@ import DateVisualizer from '../components/DateVisualizer';
 export default class PlantScreen extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {plant:{}};
+        this.state = {plant:{name:'',species:{name:''}}};
     }
 
     static DateFormat = {
@@ -104,6 +104,7 @@ export default class PlantScreen extends React.Component{
 
     render(){
         const {plant} = this.state;
+
         return(
             <SafeAreaView style={styles.mainContainer}>
 
@@ -117,12 +118,15 @@ export default class PlantScreen extends React.Component{
                         {plant.name}
                     </Text>
 
+                    <Text style={styles.infoText}>
+                        {plant.species.name}
+                    </Text>
+
                     <View style={{alignItems:'center'}}>
                         <Text style={styles.infoText}>
                             Дата последнего полива:
                         </Text>
                         <DateVisualizer style={styles.infoText} date={new Date(this.state.plant.lastWater)}/>
-
                     </View>
 
                 </View>
@@ -170,7 +174,7 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     btnContainer:{
-        flex:0.8,
+        flex:0.7,
         justifyContent:'flex-end',
         alignItems:'center',
         flexDirection:'column',
